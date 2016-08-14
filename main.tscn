@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://drake/drake.tex" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 
@@ -13,6 +14,18 @@ step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 2
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "fly"
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
 
@@ -36,7 +49,7 @@ hold_time = 30
 
 [node name="Sprite" type="Sprite" parent="Player"]
 
-transform/pos = Vector2( 194.655, 138.543 )
+transform/pos = Vector2( 42.8544, 236.05 )
 transform/scale = Vector2( 1.66208, 1.64636 )
 texture = ExtResource( 3 )
 vframes = 2
@@ -52,5 +65,24 @@ playback/active = true
 playback/speed = 2.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="Drake" type="Node" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Drake"]
+
+transform/pos = Vector2( 190.495, 167.156 )
+texture = ExtResource( 4 )
+vframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Drake/Sprite"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/fly = SubResource( 2 )
+playback/active = true
+playback/speed = 6.45378
+blend_times = [  ]
+autoplay = "fly"
 
 
