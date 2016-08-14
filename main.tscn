@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://scripts/player.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 
-[node name="Node" type="Node"]
+[node name="MainScene" type="Node"]
 
 [node name="Color Palette" type="Node" parent="."]
 
@@ -13,10 +14,16 @@ color_2 = Color( 0.545098, 0.745098, 0.454902, 1 )
 color_3 = Color( 0.2, 0.403922, 0.317647, 1 )
 color_4 = Color( 0.180392, 0.270588, 0.231373, 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Player" type="Node" parent="."]
 
-transform/pos = Vector2( 236.011, 198.338 )
-transform/scale = Vector2( 1, 1 )
-texture = ExtResource( 2 )
+script/script = ExtResource( 2 )
+idle = Vector2( 1, 1 )
+pressed = Vector2( 4, 4 )
+
+[node name="Sprite" type="Sprite" parent="Player"]
+
+transform/pos = Vector2( 242.558, 148.607 )
+transform/scale = Vector2( 2.86254, 2.46422 )
+texture = ExtResource( 3 )
 
 
