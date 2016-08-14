@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[node name="Node" type="Node"]
+
+[node name="Color Palette" type="Node" parent="."]
+
+script/script = ExtResource( 1 )
+color_1 = Color( 0.87451, 0.968627, 0.823529, 1 )
+color_2 = Color( 0.545098, 0.745098, 0.454902, 1 )
+color_3 = Color( 0.2, 0.403922, 0.317647, 1 )
+color_4 = Color( 0.180392, 0.270588, 0.231373, 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+
+transform/pos = Vector2( 236.011, 198.338 )
+transform/scale = Vector2( 1, 1 )
+texture = ExtResource( 2 )
+
+
