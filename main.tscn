@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+
+resource/name = "idle"
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 2
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
 
 [node name="MainScene" type="Node"]
 
@@ -18,12 +30,27 @@ color_4 = Color( 0.180392, 0.270588, 0.231373, 1 )
 
 script/script = ExtResource( 2 )
 idle = Vector2( 1, 1 )
-pressed = Vector2( 4, 4 )
+tap = Vector2( 2, 2 )
+hold = Vector2( 4, 4 )
+hold_time = 30
 
 [node name="Sprite" type="Sprite" parent="Player"]
 
-transform/pos = Vector2( 242.558, 148.607 )
-transform/scale = Vector2( 2.86254, 2.46422 )
+transform/pos = Vector2( 194.655, 138.543 )
+transform/scale = Vector2( 1.66208, 1.64636 )
 texture = ExtResource( 3 )
+vframes = 2
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Sprite"]
+
+playback/process_mode = 0
+playback/default_blend_time = 0.01
+root/root = NodePath("..")
+anims/idle = SubResource( 1 )
+playback/active = true
+playback/speed = 2.0
+blend_times = [  ]
+autoplay = ""
 
 
