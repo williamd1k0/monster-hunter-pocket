@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
@@ -28,6 +28,28 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ false ] }
+
+[sub_resource type="Animation" id=3]
+
+resource/name = "fly-m"
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
 
 [node name="MainScene" type="Node"]
 
@@ -49,6 +71,8 @@ hold_time = 30
 
 [node name="Sprite" type="Sprite" parent="Player"]
 
+editor/display_folded = true
+visibility/visible = false
 transform/pos = Vector2( 42.8544, 236.05 )
 transform/scale = Vector2( 1.66208, 1.64636 )
 texture = ExtResource( 3 )
@@ -66,13 +90,37 @@ playback/speed = 2.0
 blend_times = [  ]
 autoplay = ""
 
+[node name="Label" type="Label" parent="Player"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 226.0
+margin/top = 249.0
+margin/right = 303.0
+margin/bottom = 280.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.510175, 0.523438, 0.502991, 1 )
+text = "Battle!"
+align = 1
+valign = 1
+autowrap = true
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="Drake" type="Node" parent="."]
 
 [node name="Sprite" type="Sprite" parent="Drake"]
 
-transform/pos = Vector2( 190.495, 167.156 )
+editor/display_folded = true
+transform/pos = Vector2( 176.218, 163.358 )
 texture = ExtResource( 4 )
 vframes = 4
+frame = 2
+region_rect = Rect2( -22, 640, 476, 174 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Drake/Sprite"]
 
@@ -80,6 +128,8 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/fly = SubResource( 2 )
+anims/fly-m = SubResource( 3 )
+next/fly-m = ""
 playback/active = true
 playback/speed = 6.45378
 blend_times = [  ]
