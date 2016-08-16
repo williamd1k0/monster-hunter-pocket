@@ -6,7 +6,7 @@ export var hold = Vector2()
 export var hold_time = 20
 
 var press_count = 0
-var sprite = nulls
+var sprite = null
 var init_press = false
 var one_tap = false
 
