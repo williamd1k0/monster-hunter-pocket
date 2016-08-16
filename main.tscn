@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
-[ext_resource path="res://drake/drake.tex" type="Texture" id=4]
+[ext_resource path="res://fonts/apartNES.fnt" type="BitmapFont" id=4]
+[ext_resource path="res://scripts/drake.gd" type="Script" id=5]
+[ext_resource path="res://drake/drake.tex" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 
@@ -15,11 +17,10 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
+tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ 0, 1, 2, 3 ] }
 
 [sub_resource type="Animation" id=2]
 
-resource/name = "fly"
 length = 4.0
 loop = true
 step = 1.0
@@ -27,16 +28,15 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
+tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ 0, 1, 2, 3 ] }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:flip_h")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ false ] }
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ false ] }
 
 [sub_resource type="Animation" id=3]
 
-resource/name = "fly-m"
 length = 4.0
 loop = true
 step = 1.0
@@ -44,12 +44,12 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 2, 3 ] }
+tracks/0/keys = { "times":FloatArray( 0, 1, 2, 3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ 0, 1, 2, 3 ] }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:flip_h")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ true ] }
 
 [node name="MainScene" type="Node"]
 
@@ -71,7 +71,6 @@ hold_time = 30
 
 [node name="Sprite" type="Sprite" parent="Player"]
 
-editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 42.8544, 236.05 )
 transform/scale = Vector2( 1.66208, 1.64636 )
@@ -92,18 +91,18 @@ autoplay = ""
 
 [node name="Label" type="Label" parent="Player"]
 
+rect/scale = Vector2( 1.5, 1.5 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 226.0
-margin/top = 249.0
-margin/right = 303.0
-margin/bottom = 280.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0.510175, 0.523438, 0.502991, 1 )
+margin/left = 8.0
+margin/top = 250.0
+margin/right = 88.0
+margin/bottom = 285.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.180392, 0.270588, 0.231373, 1 )
 text = "Battle!"
-align = 1
 valign = 1
 autowrap = true
 uppercase = true
@@ -113,14 +112,16 @@ max_lines_visible = -1
 
 [node name="Drake" type="Node" parent="."]
 
+script/script = ExtResource( 5 )
+
 [node name="Sprite" type="Sprite" parent="Drake"]
 
-editor/display_folded = true
+visibility/light_mask = 32769
 transform/pos = Vector2( 176.218, 163.358 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 vframes = 4
-frame = 2
-region_rect = Rect2( -22, 640, 476, 174 )
+region_rect = Rect2( 392, 241, 1, 1 )
+__meta__ = { "_edit_lock_":true }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Drake/Sprite"]
 
