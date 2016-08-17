@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://scripts/main_splash.gd" type="Script" id=1]
 [ext_resource path="res://fonts/apartNES.fnt" type="BitmapFont" id=2]
 [ext_resource path="res://drake/drake.tex" type="Texture" id=3]
-[ext_resource path="res://drake/drake.anm" type="Animation" id=4]
+[ext_resource path="res://drake/drake-fly.anm" type="Animation" id=4]
+[ext_resource path="res://drake/drake-fly-mirror.anm" type="Animation" id=5]
 
 [node name="Splash" type="Node"]
 
@@ -57,21 +58,22 @@ max_lines_visible = -1
 
 [node name="Sprite" type="Sprite" parent="Drake"]
 
-transform/pos = Vector2( 165, 179 )
+transform/pos = Vector2( 181.127, 179 )
 z/z = -1
 texture = ExtResource( 3 )
 vframes = 4
-__meta__ = { "_edit_lock_":true }
+__meta__ = { "_edit_ik_":true }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Drake/Sprite"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/drake = ExtResource( 4 )
+anims/drake-fly = ExtResource( 4 )
+anims/drake-fly-mirror = ExtResource( 5 )
 playback/active = true
 playback/speed = 6.45
 blend_times = [  ]
-autoplay = "drake"
+autoplay = "drake-fly"
 
 

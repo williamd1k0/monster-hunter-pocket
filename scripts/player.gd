@@ -1,5 +1,6 @@
 extends Node
 
+export var life = 1200
 export var idle = Vector2()
 export var tap = Vector2()
 export var hold = Vector2()
