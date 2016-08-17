@@ -8,6 +8,6 @@ func _ready():
 func _input(event):
 	if event.is_action("one_button"):
 		print("Changing scene...")
-		get_tree().change_scene("res://main.tscn")
+		get_tree().change_scene("res://scenes/Main.tscn")
 
 

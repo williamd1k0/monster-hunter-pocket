@@ -33,13 +33,13 @@ color_4 = Color( 0.180392, 0.270588, 0.231373, 1 )
 
 [node name="Player" type="Node" parent="."]
 
-editor/display_folded = true
 script/script = ExtResource( 2 )
 life = 1200
-idle = Vector2( 1, 1 )
+idle = Vector2( 0, 0 )
 tap = Vector2( 2, 2 )
 hold = Vector2( 4, 4 )
 hold_time = 30
+block_wait = 30
 
 [node name="Sprite" type="Sprite" parent="Player"]
 
@@ -90,6 +90,9 @@ idle_count = 3
 tail_count = 1
 fireball_count = 1
 bite_count = 1
+tail_force = 250
+fireball_force = 200
+bite_force = 300
 
 [node name="Sprite" type="Sprite" parent="Drake"]
 
@@ -112,5 +115,13 @@ playback/active = true
 playback/speed = 6.45378
 blend_times = [  ]
 autoplay = ""
+
+[connection signal="on_attacked" from="Player" to="Player" method="_on_Player_on_attacked"]
+
+[connection signal="on_dead" from="Player" to="Player" method="_on_Player_on_dead"]
+
+[connection signal="on_attacked" from="Drake" to="Drake" method="_on_Drake_on_attacked"]
+
+[connection signal="on_dead" from="Drake" to="Drake" method="_on_Drake_on_dead"]
 
 
