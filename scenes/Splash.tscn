@@ -27,7 +27,7 @@ custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.180392, 0.270588, 0.231373, 1 )
 custom_colors/font_color_shadow = Color( 0.87451, 0.968627, 0.823529, 1 )
 custom_constants/shadow_as_outline = 1
-text = "Monster Hunter\nPoquete"
+text = "Monster Hunter\nPocket"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
@@ -72,7 +72,7 @@ root/root = NodePath("..")
 anims/drake-fly = ExtResource( 4 )
 anims/drake-fly-mirror = ExtResource( 5 )
 playback/active = true
-playback/speed = 6.45
+playback/speed = 1.0
 blend_times = [  ]
 autoplay = "drake-fly"
 

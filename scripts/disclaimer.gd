@@ -3,7 +3,6 @@ extends Node
 var read = false
 
 func _ready():
-	print("MAX SCORE: %s" % Globals.get("max_score"))
 	get_child(0).get_child(0).set_opacity(0)
 
 func _on_Timer_timeout():

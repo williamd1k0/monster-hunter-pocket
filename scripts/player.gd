@@ -27,7 +27,7 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 	set_fixed_process(true)
-	sprite.set_scale(idle)
+	sprite.get_child(0).play("nyan-idle")
 	show_action("Idle")
 	print(get_children())
 	print(Input.is_action_pressed("one_button"))
@@ -53,7 +53,7 @@ func input_update(delta):
 			init_press = true
 			if press_count > hold_time:
 				attacking = true
-				sprite.set_scale(hold)
+				sprite.get_child(0).play("nyan-attack")
 			
 	elif init_press:
 		if press_count < hold_time:
@@ -62,12 +62,13 @@ func input_update(delta):
 		
 	elif one_tap:
 		if press_count > block_wait:
-			sprite.set_scale(tap)
+			sprite.get_child(0).play("nyan-block")
 			blocking = true
 			reset_input()
 	
 	else:
-		sprite.set_scale(idle)
+		if not sprite.get_child(0).is_playing():
+			sprite.get_child(0).play("nyan-idle")
 		show_action("Idle")
 		reset_input()
 
@@ -122,3 +123,4 @@ func _on_Player_on_attacked(type, force):
 
 func _on_Player_on_dead():
 	print("YOU DIED")
+	show_action("YOU DIED")

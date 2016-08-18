@@ -23,7 +23,7 @@ func _ready():
 	print("A wild drake appears!")
 	sprite = get_child(0)
 	sprite.get_child(0).play("drake-fly")
-	set_process(true)
+	set_fixed_process(true)
 	for count in range(0, moves_values.size()):
 		for move in range(0, moves_values[count]):
 			moves_count.append(count)
@@ -31,7 +31,7 @@ func _ready():
 	print(moves_count)
 	get_move()
 
-func _process(delta):
+func _fixed_process(delta):
 	# print(sprite.get_child(0).get_current_animation())
 	if is_dead():
 		emit_signal("on_dead")
