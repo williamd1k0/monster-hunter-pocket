@@ -1,14 +1,14 @@
-extends Node
 
-export var life = 1200
+extends "Character.gd"
+
 export var idle = Vector2()
 export var tap = Vector2()
 export var hold = Vector2()
 export var hold_time = 20
 export var block_wait = 30
+export var force = 64
 
 var press_count = 0
-var sprite = null
 var init_press = false
 var one_tap = false
 
@@ -18,19 +18,18 @@ var rolling = false
 var attacking = false
 
 signal on_attacked(type, force)
-signal on_dead
 
 
 func _ready():
-	print(self)
+	._ready()
 	sprite = get_child(0)
 	set_process_input(true)
-	set_process(true)
+	# set_process(true)
 	set_fixed_process(true)
-	sprite.get_child(0).play("nyan-idle")
+	set_initial_direction("right")
+	play_animation("nyan-idle")
+	set_life(life)
 	show_action("Idle")
-	print(get_children())
-	print(Input.is_action_pressed("one_button"))
 
 
 func _fixed_process(delta):
@@ -40,14 +39,15 @@ func _fixed_process(delta):
 		input_update(delta)
 
 
-func is_dead():
-	return life <= 0
+# func is_dead():
+# 	return life <= 0
 
 func input_update(delta):
 	press_count += delta * 100
 	if Input.is_action_pressed("one_button"):
 		if one_tap:
 			rolling = true
+			toggle_direction()
 			reset_input()
 		else:
 			init_press = true
@@ -62,27 +62,40 @@ func input_update(delta):
 		
 	elif one_tap:
 		if press_count > block_wait:
-			sprite.get_child(0).play("nyan-block")
-			blocking = true
+			block()
 			reset_input()
 	
 	else:
 		if not sprite.get_child(0).is_playing():
-			sprite.get_child(0).play("nyan-idle")
+			play_animation("nyan-idle")
 		show_action("Idle")
 		reset_input()
 
+func toggle_direction():
+	if direction:
+		sprite.set_pos(Vector2(275, 200))
+	else:
+		sprite.set_pos(Vector2(65, 200))
+	.toggle_direction()
+
+func play_animation(anim):
+	.play_animation()
+	sprite.get_child(0).play(anim)
 
 func is_busy():
+	if won: return true
 	return is_blocking() or is_rolling() or is_attacking()
-	
+
+func block():
+	blocking = true
+	sprite.get_child(0).play("nyan-block")
+
+
 func is_blocking():
-	if blocking:
+	if sprite.get_child(0).get_current_animation() == "nyan-block" and sprite.get_child(0).is_playing():
 		show_action("Blocking")
-		in_action += 1
-		if in_action > 50:
-			blocking = false
-			in_action = 0
+	else:
+		blocking = false
 	return blocking
 
 func is_rolling():
@@ -95,18 +108,18 @@ func is_rolling():
 	return rolling
 
 func is_attacking():
-	if attacking:
+	if sprite.get_child(0).get_current_animation() == "nyan-attack" and not sprite.get_child(0).is_playing():
 		attack()
+		attacking = false
 		show_action("Attacking")
-		in_action += 1
-		if in_action > 60:
-			attacking = false
-			in_action = 0
 	return attacking
 
 func show_action(txt):
 	get_child(1).set_text(txt)
 
+func set_life(lf):
+	.set_life(lf)
+	get_child(2).set_text("U HP: %s" % life)
 
 func reset_input():
 	one_tap = false
@@ -114,13 +127,25 @@ func reset_input():
 	press_count = 0
 
 func attack():
-	get_parent().get_child(2).emit_signal("on_attacked", "right")
+	print("ATACA VAMOO")
+	get_parent().get_child(2).emit_signal("on_attacked", force * randi(), "right")
 
 func _on_Player_on_attacked(type, force):
-	life -= force
-	print("Attacked by %s" % type +"! Life: %s" % life)
+	if is_blocking():
+		show_action("Blocked attack %s!" % type)
+	else:
+		set_life(life - force)
+		print("Attacked by %s" % type +"! Life: %s" % life)
 
 
 func _on_Player_on_dead():
-	print("YOU DIED")
-	show_action("YOU DIED")
+	if not dead:
+		dead = true
+		print("YOU DIED")
+		show_action("YOU DIED")
+
+
+func _on_Player_on_win():
+	won = true
+	sprite.get_child(0).play("nyan-idle")
+	sprite.get_child(0).get_animation("nyan-idle").set_loop(true)
