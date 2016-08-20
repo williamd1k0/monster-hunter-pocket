@@ -126,9 +126,12 @@ func reset_input():
 	init_press = false
 	press_count = 0
 
+func get_attack_force():
+	return abs(force * randi() / 2)
+
 func attack():
 	print("ATACA VAMOO")
-	get_parent().get_child(2).emit_signal("on_attacked", force * randi(), "right")
+	get_parent().get_child(2).emit_signal("on_attacked", get_attack_force(), "right")
 
 func _on_Player_on_attacked(type, force):
 	if is_blocking():

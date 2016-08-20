@@ -130,7 +130,6 @@ bite_force = 300
 
 [node name="Sprite" type="Sprite" parent="Drake"]
 
-editor/display_folded = true
 visibility/light_mask = 32769
 transform/pos = Vector2( 185.218, 163.358 )
 texture = ExtResource( 9 )

@@ -14,7 +14,8 @@ var move = 0
 var moves = ['idle-fly', 'tail-attack', 'fire-ball', 'bite']
 var moves_count = []
 var moves_values = [idle_count, tail_count, fireball_count, bite_count]
-
+var player_direction = null
+var is_backwards = false
 
 signal on_attacked(force, position)
 
@@ -22,7 +23,8 @@ func _ready():
 	._ready()
 	print("A wild drake appears!")
 	sprite = get_child(0)
-	sprite.get_child(0).play("drake-fly")
+	set_initial_direction("left")
+	play_animation("drake-fly")
 	set_life(life)
 	set_fixed_process(true)
 	for count in range(0, moves_values.size()):
@@ -37,9 +39,10 @@ func _fixed_process(delta):
 	if is_dead():
 		emit_signal("on_dead")
 	elif not is_busy():
+		check_player_dir()
 		move = get_move()
 		do_move(move)
-		sprite.get_child(0).play("drake-fly")
+		play_animation("drake-fly")
 
 # func is_dead():
 # 	return life <= 0
@@ -47,13 +50,30 @@ func _fixed_process(delta):
 func is_busy():
 	return sprite.get_child(0).is_playing()
 
+func play_animation(anim):
+	.play_animation()
+	sprite.get_child(0).play(anim)
+
+func check_player_dir():
+	player_direction = get_parent().get_child(1).direction
+	if player_direction == direction:
+		print("DE COSTAS PRO CARA MEUO")
+		is_backwards = true
+	else:
+		is_backwards = false
+
+
 func get_move():
+	if is_backwards:
+		return -1
 	randomize()
 	var rangei = int(rand_range(0, moves_count.size()))
 	return moves_count[rangei]
 
 func do_move(moveid):
-	if moveid == 0:
+	if moveid == -1:
+		toggle_direction()
+	elif moveid == 0:
 		idle_fly()
 	elif moveid == 1:
 		tail_attack()
@@ -88,6 +108,7 @@ func is_attacking():
 			return true
 	else:
 		return false
+
 
 func set_life(lf):
 	.set_life(lf)
