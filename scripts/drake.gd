@@ -56,7 +56,7 @@ func _fixed_process(delta):
 # 	return life <= 0
 
 func is_busy():
-	return is_fire_ball() or is_flying() or is_toggle_alt() or is_bite()
+	return is_fire_ball() or is_flying() or is_toggle_alt() or is_bite() or is_idle()
 
 func play_animation(anim):
 	.play_animation()
@@ -109,8 +109,11 @@ func idle_fly():
 
 func idle_ground():
 	print("Wait")
-	#play_animation("drake-fly")
+	play_animation("drake-idle")
 	stamina += 1
+
+func is_idle():
+	return sprite.get_child(0).is_playing() and sprite.get_child(0).get_current_animation() == "drake-idle"
 
 func is_flying():
 	return sprite.get_child(0).is_playing() and sprite.get_child(0).get_current_animation() == "drake-fly"
