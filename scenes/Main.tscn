@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=2]
@@ -9,27 +9,12 @@
 [ext_resource path="res://fonts/apartNES.fnt" type="BitmapFont" id=7]
 [ext_resource path="res://scripts/drake.gd" type="Script" id=8]
 [ext_resource path="res://drake/drake.tex" type="Texture" id=9]
-[ext_resource path="res://drake/drake-fly.anm" type="Animation" id=10]
-[ext_resource path="res://scripts/HitLabel.gd" type="Script" id=11]
-[ext_resource path="res://misc/showhit.anm" type="Animation" id=12]
-[ext_resource path="res://misc/background.tex" type="Texture" id=13]
-
-[sub_resource type="Animation" id=1]
-
-resource/name = "drake-fly-mirror"
-length = 0.6
-loop = true
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ), "transitions":FloatArray( 1, 1, 1, 1, 1, 1 ), "update":0, "values":[ 0, 1, 2, 3, 2, 1 ] }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:flip_h")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ true ] }
+[ext_resource path="res://drake/drake-down.anm" type="Animation" id=10]
+[ext_resource path="res://drake/drake-fly.anm" type="Animation" id=11]
+[ext_resource path="res://drake/drake-up.anm" type="Animation" id=12]
+[ext_resource path="res://scripts/HitLabel.gd" type="Script" id=13]
+[ext_resource path="res://misc/showhit.anm" type="Animation" id=14]
+[ext_resource path="res://misc/background.tex" type="Texture" id=15]
 
 [node name="BattleScene" type="Node"]
 
@@ -58,7 +43,6 @@ transform/pos = Vector2( 65, 200 )
 z/z = 1
 texture = ExtResource( 3 )
 vframes = 12
-frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Sprite"]
 
@@ -131,21 +115,23 @@ bite_force = 300
 [node name="Sprite" type="Sprite" parent="Drake"]
 
 visibility/light_mask = 32769
-transform/pos = Vector2( 185.218, 163.358 )
+transform/pos = Vector2( 207.798, 128.485 )
 texture = ExtResource( 9 )
 vframes = 4
-frame = 3
+hframes = 4
+frame = 4
 region_rect = Rect2( 392, 241, 1, 1 )
-__meta__ = { "_edit_lock_":true }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Drake/Sprite"]
 
 playback/process_mode = 0
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/drake-fly = ExtResource( 10 )
-anims/drake-fly-mirror = SubResource( 1 )
-next/drake-fly-mirror = ""
+anims/drake-down = ExtResource( 10 )
+anims/drake-fly = ExtResource( 11 )
+anims/drake-up = ExtResource( 12 )
+next/drake-down = ""
+next/drake-up = ""
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -175,6 +161,8 @@ max_lines_visible = -1
 
 [node name="Hit" type="Label" parent="Drake"]
 
+editor/display_folded = true
+visibility/opacity = 0.0
 rect/scale = Vector2( 1.5, 1.5 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
@@ -195,7 +183,7 @@ uppercase = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script/script = ExtResource( 11 )
+script/script = ExtResource( 13 )
 anim_node = "AnimationPlayer"
 animation = "show-hit"
 prefix = "hit"
@@ -206,7 +194,7 @@ sulffix = ""
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show-hit = ExtResource( 12 )
+anims/show-hit = ExtResource( 14 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -214,11 +202,13 @@ autoplay = ""
 
 [node name="Background" type="Node" parent="."]
 
+editor/display_folded = true
+
 [node name="Sprite" type="Sprite" parent="Background"]
 
 transform/pos = Vector2( 160, 144 )
 z/z = -1
-texture = ExtResource( 13 )
+texture = ExtResource( 15 )
 __meta__ = { "_edit_lock_":true }
 
 [connection signal="on_attacked" from="Player" to="Player" method="_on_Player_on_attacked"]
