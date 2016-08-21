@@ -7,12 +7,15 @@ export var hold = Vector2()
 export var hold_time = 20
 export var block_wait = 30
 export var force = 64
+export var left_pose = 65
+export var right_pose = 275
 
 var press_count = 0
 var init_press = false
 var one_tap = false
 
 var in_action = 0
+var offset = 0
 var blocking = false
 var rolling = false
 var attacking = false
@@ -47,7 +50,6 @@ func input_update(delta):
 	if Input.is_action_pressed("one_button"):
 		if one_tap:
 			rolling = true
-			toggle_direction()
 			reset_input()
 		else:
 			init_press = true
@@ -72,10 +74,6 @@ func input_update(delta):
 		reset_input()
 
 func toggle_direction():
-	if direction:
-		sprite.set_pos(Vector2(275, 200))
-	else:
-		sprite.set_pos(Vector2(65, 200))
 	.toggle_direction()
 
 func play_animation(anim):
@@ -101,10 +99,25 @@ func is_blocking():
 func is_rolling():
 	if rolling:
 		show_action("Rolling")
-		in_action += 1
-		if in_action > 60:
-			rolling = false
-			in_action = 0
+		if sprite.get_child(0).get_current_animation() != "nyan-run" or not sprite.get_child(0).is_playing():
+			play_animation("nyan-run")
+		offset += 0.5
+		print(sprite.get_pos().x)
+		print(get_direction())
+		if direction:
+			print("indo")
+			sprite.set_pos(Vector2(sprite.get_pos().x + offset, 200))
+			if sprite.get_pos().x >= right_pose:
+				toggle_direction()
+				rolling = false
+				offset = 0
+		else:
+			print("voltando")
+			sprite.set_pos(Vector2(sprite.get_pos().x - offset, 200))
+			if sprite.get_pos().x <= left_pose:
+				toggle_direction()
+				rolling = false
+				offset = 0
 	return rolling
 
 func is_attacking():

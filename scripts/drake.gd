@@ -32,7 +32,7 @@ func _ready():
 			moves_count.append(count)
 	
 	print(moves_count)
-	get_move()
+	#get_move()
 
 func _fixed_process(delta):
 	# print(sprite.get_child(0).get_current_animation())
@@ -42,7 +42,6 @@ func _fixed_process(delta):
 		check_player_dir()
 		move = get_move()
 		do_move(move)
-		play_animation("drake-fly")
 
 # func is_dead():
 # 	return life <= 0
@@ -84,18 +83,27 @@ func do_move(moveid):
 
 func idle_fly():
 	print("Flying")
+	play_animation("drake-fly")
 
 func tail_attack():
 	print("Tail Attack")
+	play_animation("drake-fly")
 	attack("Tail Attack", tail_force)
 
 func fire_ball():
 	print("Fire Ball")
+	play_animation("drake-fire")
 	attack("Fire Ball", fireball_force)
 
 func bite():
 	print("Bite")
 	attack("Bite", bite_force)
+
+func turn_up():
+	play_animation("drake-up")
+
+func turn_down():
+	play_animation("drake-down")
 
 func attack(type, force):
 	get_parent().get_child(1).emit_signal("on_attacked", type, force)
