@@ -165,9 +165,11 @@ func _on_Player_on_dead():
 		dead = true
 		print("YOU DIED")
 		show_action("YOU DIED")
+		get_parent().get_node("Drake").emit_signal("on_win")
 
 
 func _on_Player_on_win():
 	won = true
 	sprite.get_child(0).play("nyan-idle")
 	sprite.get_child(0).get_animation("nyan-idle").set_loop(true)
+	get_parent().emit_signal("on_gameover", "nyan")

@@ -204,3 +204,9 @@ func _on_Drake_on_dead():
 		get_parent().get_node("Player").emit_signal("on_win")
 		get_child(1).set_text("VICTORY ACHIEVED")
 	
+
+func _on_Drake_on_win():
+	won = true
+	sprite.get_child(0).play("drake-fly")
+	sprite.get_child(0).get_animation("drake-fly").set_loop(true)
+	get_parent().emit_signal("on_gameover", "drake")

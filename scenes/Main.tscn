@@ -1,23 +1,26 @@
-[gd_scene load_steps=20 format=1]
+[gd_scene load_steps=23 format=1]
 
-[ext_resource path="res://scripts/color_palette.gd" type="Script" id=1]
-[ext_resource path="res://scripts/player.gd" type="Script" id=2]
-[ext_resource path="res://nyan/nyan.tex" type="Texture" id=3]
-[ext_resource path="res://nyan/nyan-attack.anm" type="Animation" id=4]
-[ext_resource path="res://nyan/nyan-block.anm" type="Animation" id=5]
-[ext_resource path="res://nyan/nyan-idle.anm" type="Animation" id=6]
-[ext_resource path="res://nyan/nyan-run.anm" type="Animation" id=7]
-[ext_resource path="res://fonts/apartNES.fnt" type="BitmapFont" id=8]
-[ext_resource path="res://scripts/drake.gd" type="Script" id=9]
-[ext_resource path="res://drake/drake.tex" type="Texture" id=10]
-[ext_resource path="res://drake/drake-down.anm" type="Animation" id=11]
-[ext_resource path="res://drake/drake-fire.anm" type="Animation" id=12]
-[ext_resource path="res://drake/drake-fly.anm" type="Animation" id=13]
-[ext_resource path="res://drake/drake-up.anm" type="Animation" id=14]
-[ext_resource path="res://scripts/HitLabel.gd" type="Script" id=15]
-[ext_resource path="res://misc/showhit.anm" type="Animation" id=16]
-[ext_resource path="res://misc/background.tex" type="Texture" id=17]
+[ext_resource path="res://scripts/battle.gd" type="Script" id=1]
+[ext_resource path="res://scripts/color_palette.gd" type="Script" id=2]
+[ext_resource path="res://scripts/player.gd" type="Script" id=3]
+[ext_resource path="res://nyan/nyan.tex" type="Texture" id=4]
+[ext_resource path="res://nyan/nyan-attack.anm" type="Animation" id=5]
+[ext_resource path="res://nyan/nyan-block.anm" type="Animation" id=6]
+[ext_resource path="res://nyan/nyan-idle.anm" type="Animation" id=7]
+[ext_resource path="res://nyan/nyan-run.anm" type="Animation" id=8]
+[ext_resource path="res://fonts/apartNES.fnt" type="BitmapFont" id=9]
+[ext_resource path="res://scripts/drake.gd" type="Script" id=10]
+[ext_resource path="res://drake/drake.tex" type="Texture" id=11]
+[ext_resource path="res://drake/drake-down.anm" type="Animation" id=12]
+[ext_resource path="res://drake/drake-fire.anm" type="Animation" id=13]
+[ext_resource path="res://drake/drake-fly.anm" type="Animation" id=14]
+[ext_resource path="res://drake/drake-up.anm" type="Animation" id=15]
+[ext_resource path="res://scripts/HitLabel.gd" type="Script" id=16]
+[ext_resource path="res://misc/showhit.anm" type="Animation" id=17]
 [ext_resource path="res://misc/bgm.ogg" type="AudioStream" id=18]
+[ext_resource path="res://misc/background.tex" type="Texture" id=19]
+[ext_resource path="res://misc/pal.tex" type="Texture" id=20]
+[ext_resource path="res://misc/fadein.anm" type="Animation" id=21]
 
 [sub_resource type="Animation" id=1]
 
@@ -33,9 +36,11 @@ tracks/0/keys = { "times":FloatArray( 0, 0.12, 0.24, 0.36 ), "transitions":Float
 
 [node name="BattleScene" type="Node"]
 
+script/script = ExtResource( 1 )
+
 [node name="Color Palette" type="Node" parent="."]
 
-script/script = ExtResource( 1 )
+script/script = ExtResource( 2 )
 color_1 = Color( 0.87451, 0.968627, 0.823529, 1 )
 color_2 = Color( 0.545098, 0.745098, 0.454902, 1 )
 color_3 = Color( 0.2, 0.403922, 0.317647, 1 )
@@ -43,7 +48,8 @@ color_4 = Color( 0.180392, 0.270588, 0.231373, 1 )
 
 [node name="Player" type="Node" parent="."]
 
-script/script = ExtResource( 2 )
+editor/display_folded = true
+script/script = ExtResource( 3 )
 life = 2350
 idle = Vector2( 0, 0 )
 tap = Vector2( 2, 2 )
@@ -58,7 +64,7 @@ right_pose = 260
 
 transform/pos = Vector2( 60, 199 )
 z/z = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 vframes = 4
 hframes = 4
 region_rect = Rect2( 605, 59, 0, 1 )
@@ -69,10 +75,10 @@ __meta__ = { "_edit_lock_":true }
 playback/process_mode = 0
 playback/default_blend_time = 0.01
 root/root = NodePath("..")
-anims/nyan-attack = ExtResource( 4 )
-anims/nyan-block = ExtResource( 5 )
-anims/nyan-idle = ExtResource( 6 )
-anims/nyan-run = ExtResource( 7 )
+anims/nyan-attack = ExtResource( 5 )
+anims/nyan-block = ExtResource( 6 )
+anims/nyan-idle = ExtResource( 7 )
+anims/nyan-run = ExtResource( 8 )
 next/nyan-block = ""
 next/nyan-run = ""
 playback/active = true
@@ -91,7 +97,7 @@ margin/left = 8.0
 margin/top = 250.0
 margin/right = 209.0
 margin/bottom = 285.0
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.180392, 0.270588, 0.231373, 1 )
 text = "Battle!"
 valign = 1
@@ -112,7 +118,7 @@ margin/left = 10.0
 margin/top = -10.0
 margin/right = 211.0
 margin/bottom = 25.0
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.180392, 0.270588, 0.231373, 1 )
 text = "||||||||||"
 valign = 1
@@ -125,7 +131,7 @@ max_lines_visible = -1
 [node name="Drake" type="Node" parent="."]
 
 editor/display_folded = true
-script/script = ExtResource( 9 )
+script/script = ExtResource( 10 )
 life = 4560
 idle_count = 3
 tail_count = 1
@@ -144,7 +150,7 @@ stamina = 0
 
 visibility/light_mask = 32769
 transform/pos = Vector2( 220, 134 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 vframes = 5
 hframes = 4
 frame = 16
@@ -156,10 +162,10 @@ playback/process_mode = 0
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/drake-bite = SubResource( 1 )
-anims/drake-down = ExtResource( 11 )
-anims/drake-fire = ExtResource( 12 )
-anims/drake-fly = ExtResource( 13 )
-anims/drake-up = ExtResource( 14 )
+anims/drake-down = ExtResource( 12 )
+anims/drake-fire = ExtResource( 13 )
+anims/drake-fly = ExtResource( 14 )
+anims/drake-up = ExtResource( 15 )
 next/drake-bite = ""
 next/drake-down = ""
 next/drake-fire = ""
@@ -180,7 +186,7 @@ margin/left = 0.0
 margin/top = 250.0
 margin/right = 201.0
 margin/bottom = 285.0
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.180392, 0.270588, 0.231373, 1 )
 text = "|||||||||||||||"
 align = 2
@@ -203,7 +209,7 @@ margin/left = 240.0
 margin/top = 100.0
 margin/right = 387.0
 margin/bottom = 135.0
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.180392, 0.270588, 0.231373, 1 )
 custom_colors/font_color_shadow = Color( 0.87451, 0.968627, 0.823529, 1 )
 custom_constants/shadow_as_outline = 1
@@ -214,7 +220,7 @@ uppercase = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script/script = ExtResource( 15 )
+script/script = ExtResource( 16 )
 anim_node = "AnimationPlayer"
 animation = "show-hit"
 prefix = "hit"
@@ -227,7 +233,7 @@ y_add = 0
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show-hit = ExtResource( 16 )
+anims/show-hit = ExtResource( 17 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -235,18 +241,7 @@ autoplay = ""
 
 [node name="Background" type="Node" parent="."]
 
-[node name="Sprite" type="Sprite" parent="Background"]
-
-transform/pos = Vector2( 160, 144 )
-z/z = -1
-texture = ExtResource( 17 )
-__meta__ = { "_edit_lock_":true }
-
-[node name="Sprite 2" type="Sprite" parent="Background"]
-
-transform/pos = Vector2( -10, 300 )
-transform/scale = Vector2( 340, -310 )
-modulate = Color( 0, 0, 0, 1 )
+editor/display_folded = true
 
 [node name="StreamPlayer" type="StreamPlayer" parent="Background"]
 
@@ -259,6 +254,78 @@ stream/paused = false
 stream/loop_restart_time = 0.0
 stream/buffering_ms = 500
 
+[node name="Sprite" type="Sprite" parent="Background"]
+
+transform/pos = Vector2( 160, 144 )
+z/z = -1
+texture = ExtResource( 19 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="GameOver" type="Node" parent="."]
+
+[node name="Sprite 2" type="Sprite" parent="GameOver"]
+
+visibility/visible = false
+transform/pos = Vector2( 160, 145 )
+transform/rot = -180.0
+transform/scale = Vector2( 170, 155 )
+z/z = 2
+texture = ExtResource( 20 )
+hframes = 4
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameOver/Sprite 2"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/fadein = ExtResource( 21 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="Node2D" type="Node2D" parent="GameOver"]
+
+z/z = 4
+
+[node name="Gameover" type="Label" parent="GameOver/Node2D"]
+
+visibility/visible = false
+rect/scale = Vector2( 2, 2 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 160.0
+margin/bottom = 145.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.180392, 0.270588, 0.231373, 1 )
+custom_colors/font_color_shadow = Color( 0.545098, 0.745098, 0.454902, 1 )
+custom_constants/shadow_as_outline = 0
+text = "GAME OVER\nyou lose"
+align = 1
+valign = 1
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameOver/Node2D/Gameover"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/fadein = ExtResource( 21 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[connection signal="on_gameover" from="." to="." method="_on_BattleScene_on_gameover"]
+
 [connection signal="on_attacked" from="Player" to="Player" method="_on_Player_on_attacked"]
 
 [connection signal="on_dead" from="Player" to="Player" method="_on_Player_on_dead"]
@@ -268,5 +335,7 @@ stream/buffering_ms = 500
 [connection signal="on_attacked" from="Drake" to="Drake" method="_on_Drake_on_attacked"]
 
 [connection signal="on_dead" from="Drake" to="Drake" method="_on_Drake_on_dead"]
+
+[connection signal="on_win" from="Drake" to="Drake" method="_on_Drake_on_win"]
 
 
