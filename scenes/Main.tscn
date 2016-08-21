@@ -58,7 +58,7 @@ transform/pos = Vector2( 65, 200 )
 z/z = 1
 texture = ExtResource( 3 )
 vframes = 12
-frame = 3
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Sprite"]
 
@@ -134,7 +134,6 @@ visibility/light_mask = 32769
 transform/pos = Vector2( 185.218, 163.358 )
 texture = ExtResource( 9 )
 vframes = 4
-frame = 1
 region_rect = Rect2( 392, 241, 1, 1 )
 __meta__ = { "_edit_lock_":true }
 
@@ -213,8 +212,6 @@ blend_times = [  ]
 autoplay = ""
 
 [node name="Background" type="Node" parent="."]
-
-editor/display_folded = true
 
 [node name="Sprite" type="Sprite" parent="Background"]
 
