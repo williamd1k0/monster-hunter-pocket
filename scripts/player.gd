@@ -98,22 +98,24 @@ func is_blocking():
 
 func is_rolling():
 	if rolling:
+		if not get_parent().get_child(2).flying and get_parent().get_child(2).is_toggle_alt():
+			return false
 		show_action("Rolling")
 		if sprite.get_child(0).get_current_animation() != "nyan-run" or not sprite.get_child(0).is_playing():
 			play_animation("nyan-run")
-		offset += 0.5
+		offset += 0.3
 		print(sprite.get_pos().x)
 		print(get_direction())
 		if direction:
 			print("indo")
-			sprite.set_pos(Vector2(sprite.get_pos().x + offset, 200))
+			sprite.set_pos(Vector2(sprite.get_pos().x + offset, 199))
 			if sprite.get_pos().x >= right_pose:
 				toggle_direction()
 				rolling = false
 				offset = 0
 		else:
 			print("voltando")
-			sprite.set_pos(Vector2(sprite.get_pos().x - offset, 200))
+			sprite.set_pos(Vector2(sprite.get_pos().x - offset, 199))
 			if sprite.get_pos().x <= left_pose:
 				toggle_direction()
 				rolling = false
@@ -132,7 +134,8 @@ func show_action(txt):
 
 func set_life(lf):
 	.set_life(lf)
-	get_child(2).set_text("U HP: %s" % life)
+	print(life_percent()/100)
+	get_child(2).set_percent_visible(life_percent()/100)
 
 func reset_input():
 	one_tap = false
@@ -140,7 +143,7 @@ func reset_input():
 	press_count = 0
 
 func get_attack_force():
-	return abs(force * randi() / 2)
+	return abs(force * (randi()%10+1) / 2)
 
 func attack():
 	print("ATACA VAMOO")
@@ -148,7 +151,10 @@ func attack():
 
 func _on_Player_on_attacked(type, force):
 	if is_blocking():
-		show_action("Blocked attack %s!" % type)
+		print("Blocked attack %s!" % type)
+	elif is_rolling():
+		set_life(life - force/2)
+		print("Attacked by %s" % type +"! Life: %s" % life)
 	else:
 		set_life(life - force)
 		print("Attacked by %s" % type +"! Life: %s" % life)

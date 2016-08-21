@@ -33,6 +33,9 @@ func play_animation():
 func set_life(lf):
 	life = lf
 
+func life_percent():
+	return float(life * 100 / initial_life)
+
 func set_initial_direction(dir):
 	if dir == "right":
 		initial_direction = true
