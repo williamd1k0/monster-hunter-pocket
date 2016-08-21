@@ -143,7 +143,10 @@ func reset_input():
 	press_count = 0
 
 func get_attack_force():
-	return abs(force * (randi()%10+1) / 2)
+	var base = abs(force * (randi()%10+1) / 2)
+	if get_parent().get_child(2).direction == direction:
+		base *= 1.5
+	return base
 
 func attack():
 	print("ATACA VAMOO")
