@@ -108,14 +108,14 @@ func is_rolling():
 		print(get_direction())
 		if direction:
 			print("indo")
-			sprite.set_pos(Vector2(sprite.get_pos().x + offset, 199))
+			sprite.set_pos(Vector2(sprite.get_pos().x + offset, 210))
 			if sprite.get_pos().x >= right_pose:
 				toggle_direction()
 				rolling = false
 				offset = 0
 		else:
 			print("voltando")
-			sprite.set_pos(Vector2(sprite.get_pos().x - offset, 199))
+			sprite.set_pos(Vector2(sprite.get_pos().x - offset, 210))
 			if sprite.get_pos().x <= left_pose:
 				toggle_direction()
 				rolling = false

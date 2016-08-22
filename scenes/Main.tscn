@@ -45,13 +45,12 @@ script/script = ExtResource( 1 )
 
 script/script = ExtResource( 2 )
 color_1 = Color( 0.87451, 0.968627, 0.823529, 1 )
-color_2 = Color( 0.545098, 0.745098, 0.454902, 1 )
+color_2 = Color( 0.67451, 0.776471, 0.690196, 1 )
 color_3 = Color( 0.2, 0.403922, 0.317647, 1 )
 color_4 = Color( 0.180392, 0.270588, 0.231373, 1 )
 
 [node name="Player" type="Node" parent="."]
 
-editor/display_folded = true
 script/script = ExtResource( 3 )
 life = 2350
 idle = Vector2( 0, 0 )
@@ -60,12 +59,12 @@ hold = Vector2( 4, 4 )
 hold_time = 30
 block_wait = 30
 force = 64
-left_pose = 60
+left_pose = 50
 right_pose = 260
 
 [node name="Sprite" type="Sprite" parent="Player"]
 
-transform/pos = Vector2( 60, 199 )
+transform/pos = Vector2( 50, 210 )
 z/z = 1
 texture = ExtResource( 4 )
 vframes = 4
@@ -91,6 +90,7 @@ autoplay = ""
 
 [node name="Label" type="Label" parent="Player"]
 
+visibility/visible = false
 rect/scale = Vector2( 1.5, 1.5 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
@@ -133,6 +133,7 @@ max_lines_visible = -1
 
 [node name="Drake" type="Node" parent="."]
 
+editor/display_folded = true
 script/script = ExtResource( 10 )
 life = 4560
 idle_count = 3
