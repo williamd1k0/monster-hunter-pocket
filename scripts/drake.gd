@@ -25,6 +25,7 @@ var is_backwards = false
 var flying = true
 var fire_ball_move = false
 var bite_move = false
+var tail_move = false
 
 signal on_attacked(force, position)
 
@@ -56,7 +57,10 @@ func _fixed_process(delta):
 # 	return life <= 0
 
 func is_busy():
-	return is_fire_ball() or is_flying() or is_toggle_alt() or is_bite() or is_idle()
+	return is_attack_move() or is_flying() or is_toggle_alt() or is_idle()
+
+func is_attack_move():
+	return is_fire_ball() or is_bite() or is_tail_attack()
 
 func play_animation(anim):
 	.play_animation()
@@ -121,10 +125,17 @@ func is_flying():
 func tail_attack():
 	if has_stamina(tail_cost):
 		print("Tail Attack")
-		#play_animation("drake-fly")
-		attack("Tail Attack", tail_force)
+		play_animation("drake-tail")
+		tail_move = true
 	else:
 		idle_ground()
+
+func is_tail_attack():
+	if tail_move:
+		if not sprite.get_child(0).is_playing() and sprite.get_child(0).get_current_animation() == "drake-tail":
+			attack("Tail Attack", tail_force)
+			tail_move = false
+	return tail_move
 
 func fire_ball():
 	if has_stamina(fireball_cost):
@@ -199,12 +210,13 @@ func _on_Drake_on_attacked(force, position):
 			print("Full hit!")
 			get_node("Hit").hit(force, sprite.get_pos())
 			set_life(life - force)
+		get_child(0).get_child(1).play("drake-blink")
 
 
 func _on_Drake_on_dead():
 	if not dead:
 		dead = true
-		get_parent().get_node("Player").emit_signal("on_win")
+		sprite.get_child(0).play("drake-die")
 		get_child(1).set_text("VICTORY ACHIEVED")
 	
 
@@ -213,3 +225,8 @@ func _on_Drake_on_win():
 	sprite.get_child(0).play("drake-fly")
 	sprite.get_child(0).get_animation("drake-fly").set_loop(true)
 	get_parent().emit_signal("on_gameover", "drake")
+
+
+func _on_AnimationPlayer_finished():
+	if sprite.get_child(0).get_current_animation() == "drake-die":
+		get_parent().get_node("Player").emit_signal("on_win")

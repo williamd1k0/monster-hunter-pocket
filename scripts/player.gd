@@ -130,12 +130,15 @@ func is_attacking():
 	return attacking
 
 func show_action(txt):
-	get_child(1).set_text(txt)
+	pass
+	#get_child(1).set_text(txt)
 
 func set_life(lf):
 	.set_life(lf)
-	print(life_percent()/100)
-	get_child(2).set_percent_visible(life_percent()/100)
+	var lifebar = 120 * life_percent()/100
+	if lifebar < 0:
+		lifebar = 0
+	get_node("LifeBar").get_child(1).set_scale(Vector2(lifebar, 8))
 
 func reset_input():
 	one_tap = false
@@ -153,22 +156,21 @@ func attack():
 	get_parent().get_child(2).emit_signal("on_attacked", get_attack_force(), "right")
 
 func _on_Player_on_attacked(type, force):
-	if is_blocking():
-		print("Blocked attack %s!" % type)
-	elif is_rolling():
-		set_life(life - force/2)
-		print("Attacked by %s" % type +"! Life: %s" % life)
-	else:
-		set_life(life - force)
-		print("Attacked by %s" % type +"! Life: %s" % life)
+	if not is_blocking():
+		if is_rolling():
+			set_life(life - force/2)
+			print("Attacked by %s" % type +"! Life: %s" % life)
+		else:
+			set_life(life - force)
+			print("Attacked by %s" % type +"! Life: %s" % life)
+		sprite.get_child(1).play("nyan-blink")
 
 
 func _on_Player_on_dead():
 	if not dead:
 		dead = true
-		print("YOU DIED")
-		show_action("YOU DIED")
-		get_parent().get_node("Drake").emit_signal("on_win")
+		sprite.get_child(0).play("nyan-die")
+		
 
 
 func _on_Player_on_win():
@@ -176,3 +178,8 @@ func _on_Player_on_win():
 	sprite.get_child(0).play("nyan-idle")
 	sprite.get_child(0).get_animation("nyan-idle").set_loop(true)
 	get_parent().emit_signal("on_gameover", "nyan")
+
+
+func _on_AnimationPlayer_finished():
+	if sprite.get_child(0).get_current_animation() == "nyan-die":
+		get_parent().get_node("Drake").emit_signal("on_win")

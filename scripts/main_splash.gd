@@ -46,12 +46,16 @@ func _on_AnimationPlayer_finished():
 
 func _on_Text_AnimationPlayer_finished():
 	if begin_game:
-		lock_input = false
 		inst.get_child(1).show()
 		inst.get_child(1).get_child(0).play("dotted-fadein")
 		inst.get_child(0).show()
+		get_child(6).start()
 
 
-func _on_Fade2_AnimationPlayer_finished():
-	if read_inst:
-		get_tree().change_scene("res://scenes/Main.tscn")
+func _on_Timer_2_timeout():
+	inst.get_child(1).get_child(0).play("dotted-fadout")
+	get_child(7).start()
+
+
+func _on_Timer_3_timeout():
+	get_tree().change_scene("res://scenes/Main.tscn")
