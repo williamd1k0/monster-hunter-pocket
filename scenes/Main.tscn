@@ -214,6 +214,7 @@ max_lines_visible = -1
 [node name="Hit" type="Label" parent="Drake"]
 
 editor/display_folded = true
+visibility/visible = false
 rect/scale = Vector2( 1.5, 1.5 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
