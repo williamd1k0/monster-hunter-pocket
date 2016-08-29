@@ -44,12 +44,10 @@ autostart = true
 
 [node name="Sprite" type="Sprite" parent="."]
 
-visibility/visible = false
 transform/pos = Vector2( 160, 144 )
 texture = ExtResource( 3 )
 vframes = 2
 hframes = 2
-frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 

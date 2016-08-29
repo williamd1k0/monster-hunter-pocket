@@ -256,8 +256,6 @@ autoplay = ""
 
 [node name="Background" type="Node" parent="."]
 
-editor/display_folded = true
-
 [node name="StreamPlayer" type="StreamPlayer" parent="Background"]
 
 stream/stream = ExtResource( 25 )
