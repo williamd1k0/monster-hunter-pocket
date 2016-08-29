@@ -226,8 +226,6 @@ autostart = false
 
 [connection signal="finished" from="Nyan/Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_finished"]
 
-[connection signal="finished" from="Instrunctions/Sprite/AnimationPlayer" to="." method="_on_Fade2_AnimationPlayer_finished"]
-
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 [connection signal="timeout" from="Readme" to="." method="_on_Readme_timeout"]
