@@ -11,10 +11,12 @@ Fight against Rathalos playing as Felyne.
 
 ## Controls
 
-Using <kbd>spacebar</kbd>:
+Using <kbd>spacebar</kbd>
 
 One tap - Block
+
 Double tap - Run
+
 Hold button - Attack
 
 ***
