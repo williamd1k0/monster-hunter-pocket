@@ -13,11 +13,9 @@ Fight against Rathalos playing as Felyne.
 
 Using <kbd>spacebar</kbd>
 
-One tap - Block
-
-Double tap - Run
-
-Hold button - Attack
+* One tap - Block
+* Double tap - Run
+* Hold button - Attack
 
 ***
 **Program:** William Tumeo
