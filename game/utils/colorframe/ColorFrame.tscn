@@ -4,15 +4,19 @@
 
 [node name="ColorFrame" type="Control"]
 
+anchor/right = 1
+anchor/bottom = 1
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 16.0
-margin/bottom = 16.0
+margin/right = 144.0
+margin/bottom = 128.0
 script/script = ExtResource( 1 )
 color = Color( 1, 1, 1, 1 )
+
+[node name="Position2D" type="Position2D" parent="."]
 
 
