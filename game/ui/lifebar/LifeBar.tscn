@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://game/utils/colorframe/ColorFrame.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/textures/ui/hpbar.png" type="Texture" id=2]
+
+[node name="LifeBar" type="Control"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="LifeFrame" parent="." instance=ExtResource( 1 )]
+
+margin/left = 27.0
+margin/top = 4.0
+margin/right = -106.0
+margin/bottom = 29.0
+color = Color( 0.278431, 0.552941, 0.435294, 1 )
+
+[node name="BarFrame" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 152.0
+margin/bottom = 40.0
+texture = ExtResource( 2 )
+stretch_mode = 0
+__meta__ = { "_edit_lock_":true }
+
+
