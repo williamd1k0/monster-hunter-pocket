@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://game/gameplay/felyne/Felyne.gd" type="Script" id=1]
+[ext_resource path="res://assets/textures/gameplay/felyne.png" type="Texture" id=2]
+
+[node name="Felyne" type="KinematicBody2D"]
+
+input/pickable = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+
+transform/pos = Vector2( -33, -47 )
+texture = ExtResource( 2 )
+centered = false
+vframes = 5
+hframes = 4
+
+[node name="TestCamera" type="Camera2D" parent="."]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+
