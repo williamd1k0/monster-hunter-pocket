@@ -1,7 +1,31 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://game/gameplay/felyne/Felyne.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/gameplay/felyne.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
+[sub_resource type="CircleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
+[sub_resource type="Animation" id=3]
+
+resource/name = "attack"
+length = 1.0
+loop = false
+step = 0.1
+
+[sub_resource type="Animation" id=4]
+
+resource/name = "defense"
+length = 1.0
+loop = false
+step = 0.1
 
 [node name="Felyne" type="KinematicBody2D"]
 
@@ -10,14 +34,6 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="."]
-
-transform/pos = Vector2( -33, -47 )
-texture = ExtResource( 2 )
-centered = false
-vframes = 5
-hframes = 4
 
 [node name="TestCamera" type="Camera2D" parent="."]
 
@@ -37,5 +53,69 @@ drag_margin/left = 0.2
 drag_margin/top = 0.2
 drag_margin/right = 0.2
 drag_margin/bottom = 0.2
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Body"]
+
+transform/pos = Vector2( -33.3874, -47.1937 )
+texture = ExtResource( 2 )
+centered = false
+vframes = 5
+hframes = 4
+
+[node name="HurtBox" type="Area2D" parent="Body"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 0.929723, 0, 0, 1.48259, -0.332469, -14.0661 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HurtBox"]
+
+transform/pos = Vector2( -0.332469, -14.0661 )
+transform/scale = Vector2( 0.929723, 1.48259 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="HitBox" type="Area2D" parent="Body"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 0.728561, 0, 0, 0.707739, -11.4709, -33.631 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HitBox"]
+
+transform/pos = Vector2( -11.4709, -33.631 )
+transform/scale = Vector2( 0.728561, 0.707739 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/attack = SubResource( 3 )
+anims/defense = SubResource( 4 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[connection signal="area_enter" from="Body/HurtBox" to="." method="_on_HurtBox_area_enter"]
 
 
