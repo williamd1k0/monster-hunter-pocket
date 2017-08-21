@@ -1,12 +1,13 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://game/gameplay/felyne/Felyne.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/gameplay/felyne.png" type="Texture" id=2]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=7]
 
 custom_solver_bias = 0.0
 radius = 10.0
+height = 13.3713
 
 [sub_resource type="CircleShape2D" id=2]
 
@@ -16,16 +17,170 @@ radius = 10.0
 [sub_resource type="Animation" id=3]
 
 resource/name = "attack"
-length = 1.0
+length = 0.8
 loop = false
-step = 0.1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7, 8 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/HitBox:transform/pos")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -15, 11 ), Vector2( 39, 0 ), Vector2( 36, 17 ), Vector2( -8, 5 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource/name = "idle"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/HitBox:transform/pos")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/HurtBox/CollisionShape2D:transform/pos")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( -0.332471, -17.0661 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/HurtBox/CollisionShape2D:shape:height")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 13.3713 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/HurtBox/CollisionShape2D:shape:radius")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 10.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/HurtBox/CollisionShape2D:transform/rot")
+tracks/5/interp = 1
+tracks/5/imported = false
+tracks/5/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=6]
+
+resource/name = "run"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 15 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/HurtBox/CollisionShape2D:transform/pos")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 3.66753, -11.0661 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/HurtBox/CollisionShape2D:transform/rot")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 90.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/HurtBox/CollisionShape2D:shape:radius")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 11.0272 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/HurtBox/CollisionShape2D:shape:height")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 10.7362 ]
+}
 
 [sub_resource type="Animation" id=4]
 
-resource/name = "defense"
+resource/name = "shield"
 length = 1.0
 loop = false
-step = 0.1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11 ]
+}
 
 [node name="Felyne" type="KinematicBody2D"]
 
@@ -67,8 +222,8 @@ hframes = 4
 [node name="HurtBox" type="Area2D" parent="Body"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 0.929723, 0, 0, 1.48259, -0.332469, -14.0661 )
+shapes/0/shape = SubResource( 7 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -0.332471, -17.0661 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -78,9 +233,8 @@ collision/layers = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HurtBox"]
 
-transform/pos = Vector2( -0.332469, -14.0661 )
-transform/scale = Vector2( 0.929723, 1.48259 )
-shape = SubResource( 1 )
+transform/pos = Vector2( -0.332471, -17.0661 )
+shape = SubResource( 7 )
 trigger = false
 _update_shape_index = 0
 
@@ -110,11 +264,13 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/attack = SubResource( 3 )
-anims/defense = SubResource( 4 )
+anims/idle = SubResource( 5 )
+anims/run = SubResource( 6 )
+anims/shield = SubResource( 4 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
-autoplay = ""
+autoplay = "idle"
 
 [connection signal="area_enter" from="Body/HurtBox" to="." method="_on_HurtBox_area_enter"]
 

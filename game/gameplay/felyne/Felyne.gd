@@ -21,10 +21,10 @@ func _ready():
 	hit_box.set_layer_mask(0)
 	print(hurt_box.get_layer_mask())
 	print(hit_box.get_layer_mask())
-	set_fixed_process(true)
+	set_process(true)
 	set_process_input(true)
 
-func _fixed_process(delta):
+func _process(delta):
 	if not locked:
 		process_movement(delta)
 
@@ -36,19 +36,20 @@ func lock_player():
 	locked = true
 
 func unlock_player():
+	play_once("idle")
 	locked = false
 
 func process_actions(event):
 	if event.is_action_pressed("player_atk"):
 		process_attack()
 	elif event.is_action_pressed("player_def"):
-		process_defense()
+		process_shield()
 
-func process_defense():
+func process_shield():
 	print("Player DEF BEGIN")
 	lock_player()
 	hurt_box.set_layer_mask(0)
-	anime.play('defense')
+	anime.play('shield')
 	yield(anime, 'finished')
 	hurt_box.set_layer_mask(HURT_LAYER)
 	unlock_player()
@@ -64,6 +65,10 @@ func process_attack():
 	unlock_player()
 	print("Player ATK END")
 
+func play_once(anim):
+	if anime.get_current_animation() != anim or not anime.is_playing():
+		anime.play(anim)
+
 func process_movement(delta):
 	# NOTE: testing movement using accumulated delta
 	delta_acc += delta
@@ -71,13 +76,22 @@ func process_movement(delta):
 		return
 	delta_acc = 0
 	if Input.is_action_pressed("ui_right"):
-		get_node("Body").set_scale(Vector2(1, 1))
-		move(Vector2(2, 0))
+		set_mirrored(false)
+		play_once("run")
+		move(Vector2(1, 0))
 	elif Input.is_action_pressed("ui_left"):
-		get_node("Body").set_scale(Vector2(-1, 1))
-		move(Vector2(-2, 0))
+		set_mirrored(true)
+		play_once("run")
+		move(Vector2(-1, 0))
 	else:
+		play_once("idle")
 		reset_speed_inc()
+
+func set_mirrored(mirror):
+	if mirror:
+		get_node("Body").set_scale(Vector2(-1, 1))
+	else:
+		get_node("Body").set_scale(Vector2(1, 1))
 
 func get_speed_inc():
 	speed_inc -= .1
