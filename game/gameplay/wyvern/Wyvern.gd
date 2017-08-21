@@ -8,7 +8,8 @@ func _ready():
 
 func _input(event):
 	if event.type == InputEvent.MOUSE_MOTION:
-		set_pos(event.pos)
+		translate(event.speed.normalized()*2)
+		
 
 func _process(delta):
 	update()

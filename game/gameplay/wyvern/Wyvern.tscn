@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://game/gameplay/wyvern/Wyvern.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/gameplay/wyvern.png" type="Texture" id=2]
@@ -9,13 +9,18 @@ custom_solver_bias = 0.0
 radius = 30.2378
 height = 26.1904
 
+[sub_resource type="CircleShape2D" id=4]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
 [sub_resource type="Animation" id=2]
 
 length = 0.8
 loop = true
 step = 0.2
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Sprite:frame")
+tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
@@ -25,34 +30,24 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/HurtBox/CollisionShape2D:transform/pos")
+tracks/1/path = NodePath("HitBox/CollisionShape2D:transform/pos")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = {
 "times": FloatArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": FloatArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( -8, 0 ), Vector2( -8, 2 ), Vector2( -8, -10 ), Vector2( -8, 4.76837e-07 ) ]
+"values": [ Vector2( -19, 34 ), Vector2( -18, 38 ), Vector2( -18.7355, 22.2357 ), Vector2( -19.2355, 35.2357 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/HurtBox/CollisionShape2D:shape:radius")
+tracks/2/path = NodePath("HurtBox/CollisionShape2D:transform/pos")
 tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = {
-"times": FloatArray( 0 ),
-"transitions": FloatArray( 1 ),
-"update": 0,
-"values": [ 30.2378 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Body/HurtBox/CollisionShape2D:shape:height")
-tracks/3/interp = 1
-tracks/3/imported = false
-tracks/3/keys = {
-"times": FloatArray( 0 ),
-"transitions": FloatArray( 1 ),
-"update": 0,
-"values": [ 26.1904 ]
+"times": FloatArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -8, 0 ), Vector2( -8, 0 ), Vector2( -8, -18 ), Vector2( -8, -5 ) ]
 }
 
 [node name="Wyvern" type="KinematicBody2D"]
@@ -67,7 +62,7 @@ script/script = ExtResource( 1 )
 
 anchor_mode = 1
 rotating = false
-current = false
+current = true
 zoom = Vector2( 1, 1 )
 limit/left = -10000000
 limit/top = -10000000
@@ -82,46 +77,52 @@ drag_margin/top = 0.2
 drag_margin/right = 0.2
 drag_margin/bottom = 0.2
 
-[node name="Body" type="Node2D" parent="."]
-
-[node name="Sprite" type="Sprite" parent="Body"]
+[node name="Sprite" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
 vframes = 9
 hframes = 4
+frame = 3
 
-[node name="HurtBox" type="Area2D" parent="Body" groups=[
+[node name="HurtBox" type="Area2D" parent="." groups=[
 "wyvern-body",
 ]]
 
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, -8, 0 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -8, -5 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 
-transform/pos = Vector2( -8, 0 )
+transform/pos = Vector2( -8, -5 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
-[node name="HitBox" type="Area2D" parent="Body"]
+[node name="HitBox" type="Area2D" parent="." groups=[
+"wyvern-hit",
+]]
 
 input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -19.2355, 35.2357 )
+shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HitBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 
+transform/pos = Vector2( -19.2355, 35.2357 )
+shape = SubResource( 4 )
 trigger = false
-_update_shape_index = -1
+_update_shape_index = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
@@ -134,6 +135,6 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = "idle"
 
-[connection signal="area_enter" from="Body/HurtBox" to="." method="_on_HurtBox_area_enter"]
+[connection signal="area_enter" from="HurtBox" to="." method="_on_HurtBox_area_enter"]
 
 

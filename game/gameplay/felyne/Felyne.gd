@@ -23,8 +23,7 @@ func _ready():
 	set_process_input(true)
 
 func _process(delta):
-	hurt_box.update()
-	hit_box.update()
+	move(Vector2(0, 0))
 	if not locked:
 		process_movement(delta)
 
@@ -58,10 +57,8 @@ func process_shield():
 func process_attack():
 	print("Player ATK BEGIN")
 	lock_player()
-	#hit_box.set_enable_monitoring(true)
 	anime.play("attack")
 	yield(anime, 'finished')
-	#hit_box.set_enable_monitoring(false)
 	unlock_player()
 	print("Player ATK END")
 
@@ -105,7 +102,8 @@ func apply_damage(force):
 	emit_signal('life_change', life * total_life / 100)
 
 func _on_HurtBox_area_enter(area):
-	pass # replace with function body
+	if area.is_in_group('wyvern-hit'):
+		prints("FELYNE HURT:", area)
 
 
 func _on_HitBox_area_enter( area ):
