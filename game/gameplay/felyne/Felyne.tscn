@@ -255,6 +255,7 @@ texture = ExtResource( 2 )
 centered = false
 vframes = 5
 hframes = 4
+frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
@@ -274,21 +275,45 @@ autoplay = "idle"
 
 input/pickable = true
 shapes/0/shape = SubResource( 8 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 14 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -26, -22 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-monitoring = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 
-transform/pos = Vector2( 0, 14 )
+transform/pos = Vector2( -26, -22 )
 shape = SubResource( 8 )
 trigger = false
 _update_shape_index = 0
+
+[node name="Particles2D" type="Particles2D" parent="HitBox/CollisionShape2D"]
+
+z/z = -1
+config/amount = 50
+config/lifetime = 1.0
+config/emit_timeout = 0.2
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+params/direction = 0.0
+params/spread = 120.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 9.8
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
 
 [node name="HurtBox" type="Area2D" parent="."]
 

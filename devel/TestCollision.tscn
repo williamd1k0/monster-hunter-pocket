@@ -9,6 +9,6 @@
 
 [node name="Wyvern" parent="." instance=ExtResource( 2 )]
 
-transform/pos = Vector2( 70, 0 )
+transform/pos = Vector2( 61, -50 )
 
 

@@ -109,3 +109,4 @@ func _on_HurtBox_area_enter(area):
 func _on_HitBox_area_enter( area ):
 	if area.is_in_group('wyvern-body'):
 		print('WYVERN')
+		get_node("HitBox/CollisionShape2D/Particles2D").set_emitting(true)
