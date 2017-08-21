@@ -7,8 +7,8 @@ signal died
 const HURT_LAYER = 2
 const HIT_LAYER = 4
 
-onready var hurt_box = get_node("Body/HurtBox")
-onready var hit_box = get_node("Body/HitBox")
+onready var hurt_box = get_node("HurtBox")
+onready var hit_box = get_node("HitBox")
 onready var anime = get_node("AnimationPlayer")
 
 var life = 100
@@ -18,13 +18,13 @@ var speed_inc = 2
 var locked = false
 
 func _ready():
-	hit_box.set_layer_mask(0)
-	print(hurt_box.get_layer_mask())
-	print(hit_box.get_layer_mask())
+	#hit_box.set_enable_monitoring(false)
 	set_process(true)
 	set_process_input(true)
 
 func _process(delta):
+	hurt_box.update()
+	hit_box.update()
 	if not locked:
 		process_movement(delta)
 
@@ -58,10 +58,10 @@ func process_shield():
 func process_attack():
 	print("Player ATK BEGIN")
 	lock_player()
-	hit_box.set_layer_mask(HIT_LAYER)
+	#hit_box.set_enable_monitoring(true)
 	anime.play("attack")
 	yield(anime, 'finished')
-	hit_box.set_layer_mask(0)
+	#hit_box.set_enable_monitoring(false)
 	unlock_player()
 	print("Player ATK END")
 
@@ -89,9 +89,9 @@ func process_movement(delta):
 
 func set_mirrored(mirror):
 	if mirror:
-		get_node("Body").set_scale(Vector2(-1, 1))
+		set_scale(Vector2(-1, 1))
 	else:
-		get_node("Body").set_scale(Vector2(1, 1))
+		set_scale(Vector2(1, 1))
 
 func get_speed_inc():
 	speed_inc -= .1
@@ -106,3 +106,8 @@ func apply_damage(force):
 
 func _on_HurtBox_area_enter(area):
 	pass # replace with function body
+
+
+func _on_HitBox_area_enter( area ):
+	if area.is_in_group('wyvern-body'):
+		print('WYVERN')
