@@ -3,7 +3,7 @@
 [ext_resource path="res://game/gameplay/felyne/Felyne.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/gameplay/felyne.png" type="Texture" id=2]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 
 resource/name = "attack"
 length = 0.8
@@ -50,7 +50,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 
 resource/name = "idle"
 length = 0.8
@@ -137,7 +137,7 @@ tracks/7/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 
 resource/name = "run"
 length = 0.8
@@ -174,7 +174,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1.4559, 0.550808 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 
 length = 1.0
 loop = false
@@ -210,12 +210,12 @@ tracks/2/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=5]
 
 custom_solver_bias = 0.0
 radius = 8.0
 
-[sub_resource type="CapsuleShape2D" id=7]
+[sub_resource type="CapsuleShape2D" id=6]
 
 custom_solver_bias = 0.0
 radius = 10.0
@@ -231,6 +231,7 @@ script/script = ExtResource( 1 )
 
 [node name="TestCamera" type="Camera2D" parent="."]
 
+offset = Vector2( 0, -64 )
 anchor_mode = 1
 rotating = false
 current = true
@@ -255,17 +256,16 @@ texture = ExtResource( 2 )
 centered = false
 vframes = 5
 hframes = 4
-frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/attack = SubResource( 3 )
-anims/idle = SubResource( 4 )
-anims/run = SubResource( 5 )
-anims/shield = SubResource( 6 )
+anims/attack = SubResource( 1 )
+anims/idle = SubResource( 2 )
+anims/run = SubResource( 3 )
+anims/shield = SubResource( 4 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -274,18 +274,20 @@ autoplay = "idle"
 [node name="HitBox" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 8 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, -26, -22 )
+shapes/0/shape = SubResource( 5 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 14 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 
-transform/pos = Vector2( -26, -22 )
-shape = SubResource( 8 )
+transform/pos = Vector2( 0, 14 )
+shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
@@ -319,7 +321,7 @@ params/anim_initial_pos = 0.0
 
 transform/pos = Vector2( 0, -15.9654 )
 input/pickable = true
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 0.9284, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -330,7 +332,7 @@ angular_damp = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 
 transform/scale = Vector2( 1, 0.9284 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 trigger = false
 _update_shape_index = 0
 

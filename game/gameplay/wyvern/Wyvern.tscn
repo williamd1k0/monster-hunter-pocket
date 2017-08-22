@@ -3,18 +3,18 @@
 [ext_resource path="res://game/gameplay/wyvern/Wyvern.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/gameplay/wyvern.png" type="Texture" id=2]
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=1]
 
 custom_solver_bias = 0.0
 radius = 30.2378
 height = 26.1904
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=2]
 
 custom_solver_bias = 0.0
 radius = 10.0
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 
 length = 0.8
 loop = true
@@ -57,6 +57,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
+debug = true
 
 [node name="TestCamera" type="Camera2D" parent="."]
 
@@ -82,15 +83,14 @@ drag_margin/bottom = 0.2
 texture = ExtResource( 2 )
 vframes = 9
 hframes = 4
-frame = 3
 
 [node name="HurtBox" type="Area2D" parent="." groups=[
 "wyvern-body",
 ]]
 
 input/pickable = true
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, -8, -5 )
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -8, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -99,8 +99,8 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 
-transform/pos = Vector2( -8, -5 )
-shape = SubResource( 3 )
+transform/pos = Vector2( -8, 0 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -109,8 +109,8 @@ _update_shape_index = 0
 ]]
 
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, -19.2355, 35.2357 )
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -19, 34 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -119,8 +119,8 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 
-transform/pos = Vector2( -19.2355, 35.2357 )
-shape = SubResource( 4 )
+transform/pos = Vector2( -19, 34 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -129,12 +129,21 @@ _update_shape_index = 0
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/idle = SubResource( 2 )
+anims/idle = SubResource( 3 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = "idle"
 
+[node name="Tween" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
 [connection signal="area_enter" from="HurtBox" to="." method="_on_HurtBox_area_enter"]
+
+[connection signal="tween_complete" from="Tween" to="." method="_on_tween_complete"]
 
 

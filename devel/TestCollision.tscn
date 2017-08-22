@@ -7,8 +7,10 @@
 
 [node name="Felyne" parent="." instance=ExtResource( 1 )]
 
+transform/pos = Vector2( -97, 62 )
+
 [node name="Wyvern" parent="." instance=ExtResource( 2 )]
 
-transform/pos = Vector2( 61, -50 )
+transform/pos = Vector2( -48.6325, -5.94398 )
 
 
