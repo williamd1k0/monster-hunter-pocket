@@ -28,6 +28,7 @@ func _ready():
 
 func _process(delta):
 	move(Vector2(0, 0)) # force collision check
+	return
 	var will_toggle_pos = not (randi() % 100) # 100 false / 1 true
 	if not is_attacking():
 		if will_toggle_pos:

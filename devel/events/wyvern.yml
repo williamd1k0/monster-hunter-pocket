@@ -1,0 +1,9 @@
+
+# Testing Wyvern behaviors
+events:
+  - set scale: [-1, 1] # will be converted to Vector2
+  - action: ui_accept # wait a key to start next events
+  - call: attack dash
+  - wait: 5 # wait 5 seconds
+  - call: attack dash
+

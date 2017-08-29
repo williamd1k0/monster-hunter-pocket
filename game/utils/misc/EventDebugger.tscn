@@ -1,0 +1,207 @@
+[gd_scene load_steps=2 format=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node
+
+signal event_start(event, params)
+signal event_done(event, result)
+signal events_finished
+
+export(NodePath) var path = NodePath('../')
+export(String, FILE, '*.json') var events
+export(bool) var start = true setget _set_start
+export(bool) var repeat = false
+
+const SUPPORTED_TYPES = [TYPE_VECTOR2, TYPE_VECTOR3, TYPE_RECT2]
+const COMMANDS = ['wait', 'call', 'get', 'set', 'action', 'yield', 'cmd', 'print']
+var event_dict = {}
+var event_list = []
+var action = ''
+var custom_commands = {}
+var timer = Timer.new()
+
+func _ready():
+	add_child(timer)
+	timer.set_one_shot(true)
+	connect('event_start', self, '_on_event_start')
+	connect('event_done', self, '_on_event_done')
+	connect('events_finished', self, '_on_events_finished')
+	timer.connect(\"timeout\", self, '_on_Timer_timeout')
+	load_events()
+	if start:
+		start_events()
+
+func load_events():
+	var file = File.new()
+	file.open(events, File.READ)
+	event_dict.parse_json(file.get_as_text())
+	event_print(event_dict)
+	if 'commands' in event_dict:
+		custom_commands = event_dict['commands']
+
+func is_builtin(value):
+	return type_is_builtin(typeof(value))
+
+func type_is_builtin(type):
+	return type in SUPPORTED_TYPES
+
+func parse_builtin(value, type):
+	# Vector2 support - use an array [x, y]
+	if type == TYPE_VECTOR2:
+		return parse_vec2(value)
+	# Vector3 support - use an array [x, y, z]
+	elif type == TYPE_VECTOR3:
+		return parse_vec3(value)
+	# Rect2 support - use an array [x, y, width, height]
+	elif type == TYPE_RECT2:
+		return parse_rect2(value)
+
+func parse_vec2(list2):
+	return Vector2(list2[0], list2[1])
+
+func parse_vec3(list3):
+	return Vector3(list3[0], list3[1], list3[2])
+
+func parse_rect2(list4):
+	return Rect2(list4[0], list4[1], list4[2], list4[3])
+
+func get_method(obj, method):
+	for meth in obj.get_method_list():
+		if meth.name == method:
+			return meth
+
+func _set_start(val):
+	start = val
+	if start:
+		start_events()
+
+func event_print(value):
+	prints('[EVENT_DEBUGGER]', value)
+
+func start_events():
+	if 'events' in event_dict:
+		event_list = event_dict['events'] + []
+		event_print(event_list)
+		resume_events()
+
+func resume_events():
+	if not event_list.empty():
+		var cmd = event_list[0].keys()[0]
+		if cmd in COMMANDS:
+			emit_signal('event_start', cmd, event_list[0][cmd])
+		else:
+			guess_command(cmd, event_list[0][cmd])
+	else:
+		event_print('DONE')
+		emit_signal('events_finished')
+
+func guess_command(cmd, params):
+	cmd = cmd.replace(' ', '_')
+	if get_node(path).has_method(cmd):
+		var args
+		if typeof(params) == TYPE_ARRAY:
+			if typeof(params[0]) != TYPE_ARRAY:
+				args = [params]
+			else:
+				args = params[0]
+		else:
+			args = [params]
+		emit_signal('event_start', 'call', [cmd] + args)
+
+func _command_wait(time):
+	timer.set_wait_time(time)
+	timer.start()
+
+func _on_Timer_timeout():
+	emit_signal('event_done', 'wait', null)
+
+func _command_call(params):
+	var result
+	if typeof(params) == TYPE_ARRAY and params.size() > 1:
+		var method = params[0].replace(' ', '_')
+		var args
+		if typeof(params[1]) != TYPE_ARRAY:
+			args = [params[1]]
+		else:
+			args = params[1]
+		var meth = get_method(get_node(path), method)
+		if type_is_builtin(meth.args[0].type) and typeof(args[0]) != TYPE_ARRAY:
+			args = [args]
+		for arg in range(args.size()):
+			if type_is_builtin(meth.args[arg].type):
+				args[arg] = parse_builtin(args[arg], meth.args[arg].type)
+		result = get_node(path).callv(method, args)
+	elif typeof(params) == TYPE_ARRAY:
+		result = get_node(path).call(params[0].replace(' ', '_'))
+	else:
+		result = get_node(path).call(params.replace(' ', '_'))
+	emit_signal('event_done', 'call', result)
+
+func _command_get(params):
+	var result = []
+	if typeof(params) != TYPE_ARRAY:
+		params = [params]
+	for param in params:
+		if get_node(path).has_method('get_' + param):
+			result.append(get_node(path).call('get_' + param))
+		else:
+			result.append(get_node(path).get(param))
+	emit_signal('event_done', 'get', result)
+	
+func _command_set(params):
+	var value = params[1]
+	if get_node(path).has_method('set_' + params[0]):
+		var meth = get_method(get_node(path), 'set_' + params[0])
+		if type_is_builtin(meth.args[0].type):
+			value = parse_builtin(value, meth.args[0].type)
+		get_node(path).call('set_' + params[0], value)
+	else:
+		get_node(path).set(params[0], value)
+	emit_signal('event_done', 'set', null)
+
+func _command_action(params):
+	action = params
+	set_process_input(true)
+
+func _input(event):
+	if event.is_action_pressed(action):
+		emit_signal('event_done', 'action', null)
+		set_process_input(false)
+
+func _command_yield(signal_):
+	yield(get_node(path), signal_)
+	emit_signal('event_done', 'yield', null)
+
+func _command_cmd(cmd):
+	event_list.pop_front()
+	event_list = [null] + custom_commands[cmd] + event_list
+	emit_signal('event_done', 'cmd', null)
+
+func _command_print(value):
+	print(value)
+	emit_signal('event_done', 'print', null)
+
+func _on_event_start(event, params):
+	event_print('CMD %s: %s' % [event.to_upper(), params])
+	call('_command_' + event, params)
+
+func _on_event_done(event, result):
+	event_print('RESULT %s: %s' % [event.to_upper(), result])
+	event_list.pop_front()
+	resume_events()
+
+func _on_events_finished():
+	if repeat:
+		start_events()
+"
+
+[node name="EventDebugger" type="Node"]
+
+script/script = SubResource( 1 )
+path = NodePath("..")
+events = "res://devel/event-debugger/test.json"
+start = true
+repeat = false
+
+
