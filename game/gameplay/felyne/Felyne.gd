@@ -101,14 +101,15 @@ func reset_speed_inc():
 	speed_inc = 3
 
 func apply_damage(force):
-	life -= force
+	life = max(0, life-force)
 	emit_signal('life_change', life * total_life / 100)
 
 func _on_HurtBox_area_enter(area):
 	if area.is_in_group('wyvern-hit'):
 		# XXX
 		if not shield_up:
-			prints("FELYNE HURT by", area)
+			prints("FELYNE HURT by", area, area.get_damage())
+			apply_damage(area.get_damage())
 
 func _on_HitBox_area_enter( area ):
 	if area.is_in_group('wyvern-body'):

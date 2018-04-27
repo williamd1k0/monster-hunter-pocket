@@ -10,7 +10,11 @@ func _ready():
 	update_bar(initial_value)
 
 func update_bar(percent):
-	tween.interpolate_method(self, '_update_bar', life_frame.get_size().x/life_size.x*100, percent, 1, 5, 0)
+	tween.interpolate_method(
+		self, '_update_bar',
+		life_frame.get_size().x/life_size.x*100, percent,
+		1, Tween.TRANS_BOUNCE, Tween.EASE_OUT
+	)
 	tween.start()
 
 func _update_bar(percent):
