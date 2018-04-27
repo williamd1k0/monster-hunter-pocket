@@ -1,1 +1,0 @@
-{"events":[{"set scale":[-1,1]},{"action":"ui_accept"},{"call":"attack dash"},{"wait":5},{"call":"attack dash"}]}

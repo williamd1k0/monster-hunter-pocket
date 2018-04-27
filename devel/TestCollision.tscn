@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://game/gameplay/felyne/Felyne.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/gameplay/wyvern/Wyvern.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/utils/misc/EventDebugger.tscn" type="PackedScene" id=3]
 
 [node name="TestCollision" type="Node2D"]
 
@@ -13,10 +12,5 @@ transform/pos = Vector2( -97, 62 )
 [node name="Wyvern" parent="." instance=ExtResource( 2 )]
 
 transform/pos = Vector2( -48.6325, -5.94398 )
-
-[node name="EventDebugger" parent="Wyvern" instance=ExtResource( 3 )]
-
-events = "res://devel/events/wyvern.json"
-repeat = true
 
 
