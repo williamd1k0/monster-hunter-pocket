@@ -282,6 +282,8 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 
@@ -295,6 +297,7 @@ _update_shape_index = 0
 z/z = -1
 config/amount = 50
 config/lifetime = 1.0
+config/time_scale = 3.0
 config/emit_timeout = 0.2
 config/emitting = false
 config/process_mode = 1
@@ -339,6 +342,8 @@ trigger = false
 _update_shape_index = 0
 
 [connection signal="area_enter" from="HitBox" to="." method="_on_HitBox_area_enter"]
+
+[connection signal="area_enter_shape" from="HitBox" to="." method="_on_HitBox_area_enter_shape"]
 
 [connection signal="area_enter" from="HurtBox" to="." method="_on_HurtBox_area_enter"]
 

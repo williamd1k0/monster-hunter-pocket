@@ -90,7 +90,6 @@ func is_attacking():
 func _on_HurtBox_area_enter( area ):
 	print(area)
 
-
 func _on_tween_complete( object, key ):
 	if key == '_process_dash':
 		if state & S_DASH_START:

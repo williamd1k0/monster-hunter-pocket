@@ -4,18 +4,17 @@ signal life_change(percent)
 signal damage(force)
 signal died
 
-const HURT_LAYER = 2
-const HIT_LAYER = 4
-
 onready var hurt_box = get_node("HurtBox")
 onready var hit_box = get_node("HitBox")
 onready var anime = get_node("AnimationPlayer")
+onready var particles = get_node("HitBox/CollisionShape2D/Particles2D")
 
 var life = 100
 var total_life = life
 var delta_acc = 0
 var speed_inc = 2
 var locked = false
+var shield_up = false
 
 func _ready():
 	#hit_box.set_enable_monitoring(false)
@@ -47,19 +46,23 @@ func process_actions(event):
 func process_shield():
 	print("Player DEF BEGIN")
 	lock_player()
-	hurt_box.set_layer_mask(0)
+	shield_up = true
 	anime.play('shield')
 	yield(anime, 'finished')
-	hurt_box.set_layer_mask(HURT_LAYER)
+	shield_up = false
 	unlock_player()
 	print("Player DEF END")
 
 func process_attack():
 	print("Player ATK BEGIN")
 	lock_player()
+	hit_box.set_monitorable(true)
+	hit_box.set_enable_monitoring(true)
 	anime.play("attack")
 	yield(anime, 'finished')
 	unlock_player()
+	hit_box.set_monitorable(false)
+	hit_box.set_enable_monitoring(false)
 	print("Player ATK END")
 
 func play_once(anim):
@@ -103,10 +106,11 @@ func apply_damage(force):
 
 func _on_HurtBox_area_enter(area):
 	if area.is_in_group('wyvern-hit'):
-		prints("FELYNE HURT:", area)
-
+		# XXX
+		if not shield_up:
+			prints("FELYNE HURT by", area)
 
 func _on_HitBox_area_enter( area ):
 	if area.is_in_group('wyvern-body'):
 		print('WYVERN')
-		get_node("HitBox/CollisionShape2D/Particles2D").set_emitting(true)
+		particles.set_emitting(true)
