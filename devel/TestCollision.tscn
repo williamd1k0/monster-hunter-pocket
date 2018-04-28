@@ -9,6 +9,7 @@
 [node name="Felyne" parent="." instance=ExtResource( 1 )]
 
 transform/pos = Vector2( 36.8521, 135.401 )
+crouching = false
 
 [node name="Wyvern" parent="." instance=ExtResource( 2 )]
 

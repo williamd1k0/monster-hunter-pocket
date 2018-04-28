@@ -4,6 +4,8 @@ signal life_change(percent)
 signal damage(force)
 signal died
 
+export(bool) var crouching = false
+
 onready var hurt_box = get_node("HurtBox")
 onready var hit_box = get_node("HitBox")
 onready var anime = get_node("AnimationPlayer")
@@ -16,6 +18,8 @@ var speed_inc = 2
 var locked = false
 var shield_up = false
 
+var idle_delay = 0.0
+
 func _ready():
 	#hit_box.set_enable_monitoring(false)
 	set_process(true)
@@ -27,8 +31,7 @@ func _process(delta):
 		process_movement(delta)
 
 func _input(event):
-	if not locked:
-		process_actions(event)
+	process_actions(event)
 
 func lock_player():
 	locked = true
@@ -38,20 +41,28 @@ func unlock_player():
 	locked = false
 
 func process_actions(event):
-	if event.is_action_pressed("player_atk"):
+	if not locked and event.is_action_pressed("player_atk"):
 		process_attack()
 	elif event.is_action_pressed("player_def"):
 		process_shield()
+	if event.is_action_released("player_def"):
+		release_shield()
 
 func process_shield():
 	print("Player DEF BEGIN")
 	lock_player()
 	shield_up = true
 	anime.play('shield')
-	yield(anime, 'finished')
+	#yield(anime, 'finished')
+	#shield_up = false
+	#unlock_player()
+	#print("Player DEF END")
+
+func release_shield():
+	print("Player DEF END")
 	shield_up = false
 	unlock_player()
-	print("Player DEF END")
+	play_once('idle')
 
 func process_attack():
 	print("Player ATK BEGIN")
@@ -75,17 +86,22 @@ func process_movement(delta):
 	if float(delta_acc*100) < get_speed_inc():
 		return
 	delta_acc = 0
+	var movement = Vector2(0, 0)
 	if Input.is_action_pressed("ui_right"):
-		set_mirrored(false)
-		play_once("run")
-		move(Vector2(1, 0))
+		movement = Vector2(1, 0)
 	elif Input.is_action_pressed("ui_left"):
-		set_mirrored(true)
-		play_once("run")
-		move(Vector2(-1, 0))
+		movement = Vector2(-1, 0)
+	if movement == Vector2(0, 0):
+		idle_delay += delta
+		if idle_delay >= .15:
+			idle_delay = 0.0
+			play_once("idle")
+			reset_speed_inc()
 	else:
-		play_once("idle")
-		reset_speed_inc()
+		set_mirrored(not(movement.x+1)) # Hacking to the gate
+		play_once("run")
+		move(movement)
+		idle_delay = 0.0
 
 func set_mirrored(mirror):
 	if mirror:

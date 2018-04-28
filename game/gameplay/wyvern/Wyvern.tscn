@@ -79,6 +79,7 @@ drag_margin/bottom = 0.2
 texture = ExtResource( 2 )
 vframes = 9
 hframes = 4
+frame = 1
 
 [node name="HurtBox" type="Area2D" parent="." groups=[
 "wyvern-body",
@@ -101,6 +102,10 @@ trigger = false
 _update_shape_index = 0
 
 [node name="HitBox" parent="." instance=ExtResource( 3 )]
+
+[node name="CollisionShape2D" parent="HitBox"]
+
+transform/pos = Vector2( -18, 38 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
@@ -125,3 +130,4 @@ playback/speed = 1.0
 [connection signal="tween_complete" from="Tween" to="." method="_on_tween_complete"]
 
 
+[editable path="HitBox"]
